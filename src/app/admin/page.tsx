@@ -6,8 +6,9 @@ import { Textarea } from '@/components/ui/textarea'
 import { useToast } from '@/hooks/use-toast'
 import Link from 'next/link'
 import { Package, ShoppingCart, Users, Star, TrendingUp, Plus, Eye, Trash2 } from 'lucide-react'
+import ErrorBoundary from '@/components/ErrorBoundary'
 
-export default function AdminPage() {
+function AdminDashboard() {
   const [isLoading, setIsLoading] = useState(false)
   const [bulkData, setBulkData] = useState('')
   const [stats, setStats] = useState(null)
@@ -294,5 +295,13 @@ export default function AdminPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function AdminPage() {
+  return (
+    <ErrorBoundary>
+      <AdminDashboard />
+    </ErrorBoundary>
   )
 }

@@ -3,8 +3,9 @@ import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { ShoppingCart, Package, Truck, CheckCircle } from 'lucide-react'
+import ErrorBoundary from '@/components/ErrorBoundary'
 
-export default function OrdersPage() {
+function OrdersContent() {
   const [orders, setOrders] = useState(null)
   const [searchTerm, setSearchTerm] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -133,5 +134,13 @@ export default function OrdersPage() {
         )}
       </div>
     </div>
+  )
+}
+
+export default function OrdersPage() {
+  return (
+    <ErrorBoundary>
+      <OrdersContent />
+    </ErrorBoundary>
   )
 }

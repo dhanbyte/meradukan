@@ -3,8 +3,9 @@ import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Users, Mail, Phone, Calendar } from 'lucide-react'
+import ErrorBoundary from '@/components/ErrorBoundary'
 
-export default function CustomersPage() {
+function CustomersContent() {
   const [customers, setCustomers] = useState(null)
   const [searchTerm, setSearchTerm] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -127,5 +128,13 @@ export default function CustomersPage() {
         )}
       </div>
     </div>
+  )
+}
+
+export default function CustomersPage() {
+  return (
+    <ErrorBoundary>
+      <CustomersContent />
+    </ErrorBoundary>
   )
 }
