@@ -60,7 +60,7 @@ export default function Home() {
   const [api, setApi] = useState<CarouselApi>();
   const [showDropshipPopup, setShowDropshipPopup] = useState(false);
 
-  // Show popup every 5 minutes
+  // Show popup every 30 minutes
   useEffect(() => {
     const showPopup = () => {
       setShowDropshipPopup(true);
@@ -69,8 +69,8 @@ export default function Home() {
     // Show first popup after 30 seconds
     const initialTimer = setTimeout(showPopup, 30000);
     
-    // Then show every 5 minutes
-    const intervalTimer = setInterval(showPopup, 5 * 60 * 1000); // 5 minutes
+    // Then show every 30 minutes
+    const intervalTimer = setInterval(showPopup, 30 * 60 * 1000); // 30 minutes
 
     return () => {
       clearTimeout(initialTimer);
@@ -292,51 +292,28 @@ export default function Home() {
       </section>
 
       <section>
-        <h2 className="text-2xl font-bold mb-4 text-center">Shop by Category</h2>
+        <h2 className="text-2xl font-bold mb-6 text-center">Shop by Category</h2>
 
-        {/* First Row - Tech & Home Subcategories */}
-        <div className="mb-6">
-          <h3 className="text-lg font-semibold mb-3 text-center text-gray-700">Popular Categories</h3>
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3 md:gap-4">
-            {topCategories.slice(0, 6).map((category, index) => (
-              <Link key={category.name} href={category.href} className="group block text-center">
-                <div className="relative aspect-square w-full mx-auto mb-2">
+        {/* All Categories Grid */}
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-6">
+          {topCategories.map((category, index) => (
+            <Link key={category.name} href={category.href} className="group block text-center">
+              <div className="relative w-full mx-auto mb-3">
+                <div className="aspect-square w-full">
                   <Image
                     src={category.image}
                     alt={category.name}
-                    width={80}
-                    height={80}
+                    width={64}
+                    height={64}
                     loading="lazy"
                     className="w-full h-full object-cover rounded-lg drop-shadow-md transition-transform duration-300 group-hover:scale-105"
                     data-ai-hint={category.dataAiHint}
                   />
                 </div>
-                <h4 className="text-xs md:text-sm font-medium text-gray-700 group-hover:text-brand leading-tight">{category.name}</h4>
-              </Link>
-            ))}
-          </div>
-        </div>
-
-        {/* Second Row - New Arrivals Subcategories */}
-        <div>
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3 md:gap-4">
-            {topCategories.slice(6, 12).map((category, index) => (
-              <Link key={category.name} href={category.href} className="group block text-center">
-                <div className="relative aspect-square w-full mx-auto mb-2">
-                  <Image
-                    src={category.image}
-                    alt={category.name}
-                    width={80}
-                    height={80}
-                    loading="lazy"
-                    className="w-full h-full object-cover rounded-lg drop-shadow-md transition-transform duration-300 group-hover:scale-105"
-                    data-ai-hint={category.dataAiHint}
-                  />
-                </div>
-                <h4 className="text-xs md:text-sm font-medium text-gray-700 group-hover:text-brand leading-tight">{category.name}</h4>
-              </Link>
-            ))}
-          </div>
+              </div>
+              <h4 className="text-sm md:text-base font-medium text-gray-700 group-hover:text-brand leading-tight px-1">{category.name}</h4>
+            </Link>
+          ))}
         </div>
       </section>
 

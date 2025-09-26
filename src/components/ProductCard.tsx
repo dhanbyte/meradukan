@@ -54,7 +54,7 @@ export default function ProductCard({ p, product, suggest }: { p?: Product; prod
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className="card p-2 flex flex-col group"
+      className="card p-1.5 flex flex-col group"
     >
       <div className="relative aspect-square">
         <Link href={`/product/${productData.slug}`} className="block h-full">
@@ -80,28 +80,30 @@ export default function ProductCard({ p, product, suggest }: { p?: Product; prod
           <WishlistButton id={productData.id} />
         </div>
       </div>
-      <div className="flex-grow flex flex-col pt-2 px-1">
+      <div className="flex-grow flex flex-col pt-1.5 px-0.5">
         <Link href={`/product/${productData.slug}`} className="flex-grow">
-          <div className="line-clamp-2 h-9 text-sm font-medium">{productData.name}</div>
-          <RatingStars value={productData.ratings?.average || 0} />
-          <div className="mt-1">
+          <div className="line-clamp-2 h-8 text-xs md:text-sm font-medium leading-tight">{productData.name}</div>
+          <div className="mt-0.5">
+            <RatingStars value={productData.ratings?.average || 0} />
+          </div>
+          <div className="mt-0.5">
             <PriceTag original={productData.price.original} discounted={productData.price.discounted} />
           </div>
         </Link>
-        <div className="mt-2">
+        <div className="mt-1.5">
             {productData.quantity > 0 ? (
-                <Button onClick={handleAddToCart} size="sm" className="w-full h-9">
+                <Button onClick={handleAddToCart} size="sm" className="w-full h-8 text-xs">
                     Add to Cart
                 </Button>
             ) : (
                 hasNotification(productData.id) ? (
-                    <Button size="sm" className="w-full h-9" disabled>
-                        <Check className="h-4 w-4 mr-2" />
+                    <Button size="sm" className="w-full h-8 text-xs" disabled>
+                        <Check className="h-3 w-3 mr-1" />
                         We'll Notify You
                     </Button>
                 ) : (
-                    <Button onClick={handleNotifyMe} size="sm" variant="secondary" className="w-full h-9">
-                        <BellRing className="h-4 w-4 mr-2" />
+                    <Button onClick={handleNotifyMe} size="sm" variant="secondary" className="w-full h-8 text-xs">
+                        <BellRing className="h-3 w-3 mr-1" />
                         Notify Me
                     </Button>
                 )
