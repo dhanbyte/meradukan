@@ -1,6 +1,6 @@
 'use client'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { 
   LayoutDashboard, 
   Package, 
@@ -10,7 +10,8 @@ import {
   ShoppingCart,
   BarChart3,
   Settings,
-  Home
+  Home,
+  LogOut
 } from 'lucide-react'
 
 const menuItems = [
@@ -27,6 +28,19 @@ const menuItems = [
 
 export default function AdminSidebar() {
   const pathname = usePathname()
+  const router = useRouter()
+
+  const handleLogout = () => {
+    try {
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('adminAuth')
+      }
+      router.push('/admin/login')
+    } catch (error) {
+      console.error('Logout error:', error)
+      router.push('/admin/login')
+    }
+  }
 
   return (
     <div className="w-64 bg-white shadow-lg h-screen fixed left-0 top-0 z-40">
@@ -62,7 +76,7 @@ export default function AdminSidebar() {
         </ul>
       </nav>
       
-      <div className="absolute bottom-4 left-4 right-4">
+      <div className="absolute bottom-4 left-4 right-4 space-y-2">
         <Link 
           href="/"
           className="flex items-center gap-2 px-4 py-2 text-sm text-gray-500 hover:text-gray-700"
@@ -70,6 +84,13 @@ export default function AdminSidebar() {
           <Home className="h-4 w-4" />
           Back to Website
         </Link>
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-2 px-4 py-2 text-sm text-red-500 hover:text-red-700 w-full text-left"
+        >
+          <LogOut className="h-4 w-4" />
+          Logout
+        </button>
       </div>
     </div>
   )

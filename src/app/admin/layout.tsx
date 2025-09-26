@@ -1,5 +1,6 @@
 import { Metadata } from 'next'
 import AdminSidebar from '@/components/AdminSidebar'
+import AdminProtection from '@/components/AdminProtection'
 
 export const metadata: Metadata = {
   title: 'Admin Dashboard - ShopWave',
@@ -12,11 +13,13 @@ export default function AdminLayout({
   children: React.ReactNode
 }) {
   return (
-    <div className="min-h-screen bg-gray-50">
-      <AdminSidebar />
-      <div className="ml-64">
-        {children}
+    <AdminProtection>
+      <div className="min-h-screen bg-gray-50">
+        <AdminSidebar />
+        <div className="ml-64">
+          {children}
+        </div>
       </div>
-    </div>
+    </AdminProtection>
   )
 }

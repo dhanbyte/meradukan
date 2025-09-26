@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
 export default function AdminLoginPage() {
@@ -9,14 +9,35 @@ export default function AdminLoginPage() {
   const [loading, setLoading] = useState(false)
   const router = useRouter()
 
+  useEffect(() => {
+    // Check if already authenticated (only on client)
+    if (typeof window !== 'undefined') {
+      try {
+        const adminAuth = localStorage.getItem('adminAuth')
+        if (adminAuth === 'true') {
+          router.push('/admin')
+        }
+      } catch (error) {
+        console.error('Auth check error:', error)
+      }
+    }
+  }, [router])
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
     setError('')
     
     if (password === '704331') {
-      localStorage.setItem('adminAuth', 'true')
-      router.push('/admin')
+      try {
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('adminAuth', 'true')
+        }
+        router.push('/admin')
+      } catch (error) {
+        console.error('Login error:', error)
+        setError('Login failed. Please try again.')
+      }
     } else {
       setError('Invalid password')
     }
