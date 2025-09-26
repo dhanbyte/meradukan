@@ -186,10 +186,18 @@ export default function Home() {
 
 
 
-  if (!mounted || isLoading) {
+  if (!mounted) {
     return (
       <div className="flex justify-center py-10">
-          <LoadingSpinner />
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+      </div>
+    )
+  }
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center py-10">
+        <LoadingSpinner />
       </div>
     )
   }

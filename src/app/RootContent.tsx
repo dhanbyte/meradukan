@@ -12,7 +12,6 @@ import WelcomePopup from '@/components/WelcomePopup';
 import { useProductStore } from '@/lib/productStore';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import LoadingFallback from '@/components/LoadingFallback';
-import { useAuth } from '@/context/ClerkAuthContext';
 import ErrorBoundary from '@/components/ErrorBoundary';
 
 export default function RootContent({
