@@ -1,0 +1,7 @@
+.history/
+.qodo/
+docs/
+scripts/
+*.md
+test-*.js
+*.tsbuildinfo
