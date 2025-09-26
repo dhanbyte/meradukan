@@ -13,6 +13,7 @@ import { useProductStore } from '@/lib/productStore';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import LoadingFallback from '@/components/LoadingFallback';
 import { useAuth } from '@/context/ClerkAuthContext';
+import ErrorBoundary from '@/components/ErrorBoundary';
 
 export default function RootContent({
   children,
@@ -20,49 +21,96 @@ export default function RootContent({
   children: React.ReactNode;
 }) {
   const [mounted, setMounted] = useState(false);
-  const pathname = usePathname();
-  const isAdminRoute = pathname.startsWith('/admin');
+  const [pathname, setPathname] = useState('');
   
   useEffect(() => {
-    setMounted(true);
+    try {
+      setMounted(true);
+      if (typeof window !== 'undefined') {
+        setPathname(window.location.pathname);
+      }
+    } catch (error) {
+      console.error('RootContent mount error:', error);
+      setMounted(true);
+    }
   }, []);
 
   if (!mounted) {
     return <LoadingFallback />;
   }
 
+  const isAdminRoute = pathname.startsWith('/admin');
+
   if (isAdminRoute) {
-    return <>{children}</>;
+    return (
+      <ErrorBoundary>
+        {children}
+      </ErrorBoundary>
+    );
   }
 
-  return <RootContentInner>{children}</RootContentInner>;
+  return (
+    <ErrorBoundary>
+      <RootContentInner>{children}</RootContentInner>
+    </ErrorBoundary>
+  );
 }
 
 function RootContentInner({ children }: { children: React.ReactNode }) {
-  const { isLoading: productsLoading } = useProductStore();
-  const { loading: authLoading } = useAuth();
+  const [isReady, setIsReady] = useState(false);
   
-  if (productsLoading || authLoading) {
+  useEffect(() => {
+    try {
+      // Small delay to ensure everything is mounted
+      const timer = setTimeout(() => {
+        setIsReady(true);
+      }, 100);
+      
+      return () => clearTimeout(timer);
+    } catch (error) {
+      console.error('RootContentInner error:', error);
+      setIsReady(true);
+    }
+  }, []);
+
+  if (!isReady) {
     return (
-        <div className="flex h-screen items-center justify-center">
-            <LoadingSpinner />
-        </div>
+      <div className="flex h-screen items-center justify-center">
+        <LoadingSpinner />
+      </div>
     );
   }
 
   return (
     <>
       <div className="flex flex-col min-h-screen">
-        <TopBar />
+        <ErrorBoundary>
+          <TopBar />
+        </ErrorBoundary>
+        
         <main className="container py-4 pb-24 md:pb-8 flex-grow">
-          {children}
+          <ErrorBoundary>
+            {children}
+          </ErrorBoundary>
         </main>
-        <Footer />
+        
+        <ErrorBoundary>
+          <Footer />
+        </ErrorBoundary>
       </div>
-      <BottomNav />
+      
+      <ErrorBoundary>
+        <BottomNav />
+      </ErrorBoundary>
 
-      <BackInStockPopup />
-      <WelcomePopup />
+      <ErrorBoundary>
+        <BackInStockPopup />
+      </ErrorBoundary>
+      
+      <ErrorBoundary>
+        <WelcomePopup />
+      </ErrorBoundary>
+      
       <Toaster />
     </>
   );

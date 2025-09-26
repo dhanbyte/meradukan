@@ -53,12 +53,17 @@ const VISIBLE_COUNT_KEY = 'home_visible_count';
 const SELECTED_CATEGORY_KEY = 'home_selected_category';
 
 export default function Home() {
+  const [mounted, setMounted] = useState(false);
   const { products, isLoading } = useProductStore();
   const { toast } = useToast();
   const [visibleCount, setVisibleCount] = useState(PRODUCTS_TO_SHOW);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [api, setApi] = useState<CarouselApi>();
   const [showDropshipPopup, setShowDropshipPopup] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Show popup every 30 minutes
   useEffect(() => {
@@ -181,7 +186,7 @@ export default function Home() {
 
 
 
-  if (isLoading) {
+  if (!mounted || isLoading) {
     return (
       <div className="flex justify-center py-10">
           <LoadingSpinner />
