@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 
 interface AdminProtectionProps {
   children: React.ReactNode
@@ -12,6 +12,10 @@ export default function AdminProtection({ children }: AdminProtectionProps) {
   const [isLoading, setIsLoading] = useState(true)
   const [isMounted, setIsMounted] = useState(false)
   const router = useRouter()
+  const pathname = usePathname()
+
+  // Don't protect login page
+  const isLoginPage = pathname === '/admin/login'
 
   useEffect(() => {
     setIsMounted(true)
@@ -19,6 +23,12 @@ export default function AdminProtection({ children }: AdminProtectionProps) {
 
   useEffect(() => {
     if (!isMounted) return
+
+    // Skip auth check for login page
+    if (isLoginPage) {
+      setIsLoading(false)
+      return
+    }
 
     const checkAuth = () => {
       try {
@@ -37,7 +47,7 @@ export default function AdminProtection({ children }: AdminProtectionProps) {
     }
 
     checkAuth()
-  }, [router, isMounted])
+  }, [router, isMounted, isLoginPage])
 
   if (!isMounted || isLoading) {
     return (
@@ -48,6 +58,11 @@ export default function AdminProtection({ children }: AdminProtectionProps) {
         </div>
       </div>
     )
+  }
+
+  // Always show login page
+  if (isLoginPage) {
+    return <>{children}</>
   }
 
   if (!isAuthenticated) {
