@@ -5,8 +5,9 @@ import { Input } from '@/components/ui/input'
 import { useToast } from '@/hooks/use-toast'
 import Link from 'next/link'
 import { Package, Plus, Edit, Eye, Trash2 } from 'lucide-react'
+import ErrorBoundary from '@/components/ErrorBoundary'
 
-export default function ProductsPage() {
+function ProductsPageContent() {
   const [products, setProducts] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
@@ -22,9 +23,14 @@ export default function ProductsPage() {
       const response = await fetch('/api/products')
       if (response.ok) {
         const data = await response.json()
-        setProducts(data)
+        setProducts(Array.isArray(data) ? data : [])
+      } else {
+        console.error('Failed to fetch products:', response.status)
+        setProducts([])
       }
     } catch (error) {
+      console.error('Error fetching products:', error)
+      setProducts([])
       toast({ title: "Error", description: "Failed to fetch products" })
     } finally {
       setIsLoading(false)
@@ -51,6 +57,16 @@ export default function ProductsPage() {
   const filteredProducts = products.filter((product: any) =>
     product.name.toLowerCase().includes(searchTerm.toLowerCase())
   )
+
+  if (isLoading) {
+    return (
+      <div className="p-6">
+        <div className="flex justify-center items-center h-64">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="p-6">
@@ -175,5 +191,13 @@ export default function ProductsPage() {
         )}
       </div>
     </div>
+  )
+}
+
+export default function ProductsPage() {
+  return (
+    <ErrorBoundary>
+      <ProductsPageContent />
+    </ErrorBoundary>
   )
 }
