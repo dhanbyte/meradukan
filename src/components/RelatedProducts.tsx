@@ -81,25 +81,25 @@ export default function RelatedProducts({ products, title = "Related Products" }
             <Link
               key={product.id}
               href={`/product/${product.slug}`}
-              className="flex-shrink-0 w-[200px] md:w-[220px] bg-white rounded-lg border hover:shadow-md transition-shadow p-3 group"
+              className="flex-shrink-0 w-[180px] md:w-[200px] bg-white rounded-lg border hover:shadow-md transition-shadow p-2 group"
             >
-              <div className="relative aspect-square mb-3 overflow-hidden rounded-md bg-gray-100">
+              <div className="relative aspect-square mb-2 overflow-hidden rounded-md bg-gray-100">
                 <Image
                   src={product.image}
                   alt={product.name}
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-300"
-                  sizes="220px"
+                  sizes="200px"
                 />
                 {product.quantity === 0 && (
                   <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                    <span className="text-white text-sm font-medium">Out of Stock</span>
+                    <span className="text-white text-xs font-medium">Out of Stock</span>
                   </div>
                 )}
               </div>
               
-              <div className="space-y-2">
-                <h3 className="text-sm font-medium line-clamp-2 text-gray-900 group-hover:text-blue-600 transition-colors">
+              <div className="space-y-1">
+                <h3 className="text-xs md:text-sm font-medium line-clamp-2 text-gray-900 group-hover:text-blue-600 transition-colors leading-tight">
                   {product.name}
                 </h3>
                 
@@ -114,7 +114,7 @@ export default function RelatedProducts({ products, title = "Related Products" }
                   </div>
                 )}
                 
-                <div className="pt-1">
+                <div className="pt-0.5">
                   <PriceTag 
                     original={product.price.original} 
                     discounted={product.price.discounted}

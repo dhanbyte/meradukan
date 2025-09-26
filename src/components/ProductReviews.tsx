@@ -28,7 +28,11 @@ export default function ProductReviews({ productId }: ProductReviewsProps) {
   const convertToReview = (data: ReviewData): Review => ({
     ...data,
     _id: data._id.toString(),
-    createdAt: data.createdAt.toISOString(),
+    createdAt: data.createdAt instanceof Date 
+      ? data.createdAt.toISOString() 
+      : typeof data.createdAt === 'string' 
+        ? data.createdAt 
+        : new Date(data.createdAt).toISOString(),
   });
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
