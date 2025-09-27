@@ -1,7 +1,7 @@
 import type { Product } from "../types";
 
 export const NEWARRIVALS_PRODUCTS: Product[] = [
-    {
+  {
     "id": "na_14113",
     "slug": "shubhlabh-divine-plate",
     "name": "ShubhLabh Divine Plate",
@@ -9,16 +9,13 @@ export const NEWARRIVALS_PRODUCTS: Product[] = [
     "description": "हर घर की दीवार पर लिखा होता है — शुभ लाभ। लेकिन क्या आपने कभी सोचा… ये सिर्फ़ दो शब्द नहीं… ये तो माँ लक्ष्मी को आमंत्रण देने का एक दिव्य माध्यम है।\n\nशास्त्रों में कहा गया है— ‘शुभस्य लाभस्य च योजनेन, गृहे सदा लक्ष्मी निवासो भवति।’ अर्थात — शुभ और लाभ के संयोग से, किसी भी घर में सदैव माँ लक्ष्मी का वास होता है। और इसी संयोग को साकार करती है — हमारी ShubhLabh Divine Plate।\n\nइस प्लेट पर उकेरे गए हैं — लाल रंग में शुभ-लाभ के पावन शब्द। लाल रंग शक्ति, सौभाग्य और माँ लक्ष्मी का प्रतीक है।\n\nShubhLabh Divine Plate को लगाएं— मुख्य द्वार के दोनों ओर, पूजाघर में, तिजोरी या अलमारी पर, व्यापार स्थल के प्रवेश द्वार पर। यह सजावट नहीं, बल्कि एक ऊर्जा-संवाहक है, जो घर को सौभाग्य, संतुलन और समृद्धि से भर देता है।\n\nयह प्लेट सिर्फ दिवाली तक सीमित नहीं है। नवरात्रि से लेकर अक्षय तृतीया तक, गृह प्रवेश से लेकर व्यापार आरंभ तक, या जब भी आप शुभता और समृद्धि को आमंत्रित करना चाहें — ShubhLabh Divine Plate हर अवसर पर श्रेष्ठ है।\n\nजब एक सामान्य स्टीकर 125 रुपये में मिलता है, तो यह Divine Plate — शुद्ध, सुंदर और शक्तिशाली — मिल रही है सिर्फ ₹30 में, 80% की छूट के साथ, ताकि हर घर में शुभता का प्रकाश फैले।\n\nतो आइए, माँ लक्ष्मी का स्वागत करें इस ShubhLabh Divine Plate के साथ। Order कीजिए आज ही, और इसे बनाइए अपने जीवन का स्थायी शुभ संकेत। शुभ लाभ की दिव्यता आपके जीवन में सदा बनी रहे।",
     "shortDescription": "माँ लक्ष्मी का स्वागत करें — शुभ लाभ की दिव्यता से अपने घर और व्यापार को समृद्ध बनाएं।",
     "price": { "original": 125, "discounted": 30, "currency": "₹" },
-    "image": "https://ik.imagekit.io/b5qewhvhb/Screenshot%202025-09-26%20at%208.19.31%E2%80%AFPM.png",
+    "image": "https://ik.imagekit.io/b5qewhvhb/WhatsApp%20Image%202025-09-22%20at%2017.55.22_ee418f7e.jpg",
     "extraImages": [
-      "https://ik.imagekit.io/b5qewhvhb/Screenshot%202025-09-26%20at%208(1).19",
-      "https://ik.imagekit.io/b5qewhvhb/Screenshot%202025-09-26%20at%208.19.16%E2%80%AFPM.png",
+      "https://ik.imagekit.io/b5qewhvhb/WhatsApp%20Image%202025-09-22%20at%2017.55.22_0f60e727.jpg",
       
-      "https://ik.imagekit.io/b5qewhvhb/WhatsApp%20Image%202025-09-22%20at%2017.55.22_0f60e727.jpg ",
-      "https://ik.imagekit.io/b5qewhvhb/WhatsApp%20Image%202025-09-22%20at%2017.55.22_ee418f7e.jpg"
     ],
-    "category": "Tech",
-    "subcategory": "Accessories",
+    "category": "New Arrivals",
+    "subcategory": "diwali Special",
     "quantity": 500,
     "ratings": { "average": 4.8, "count": 112 },
     "features": [
