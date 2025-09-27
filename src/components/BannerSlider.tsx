@@ -53,7 +53,7 @@ export default function BannerSlider(){
   useEffect(() => { 
     const timer = setInterval(() => {
       setCurrentIndex(prev => (prev + 1) % BANNERS.length)
-    }, 3000); 
+    }, 4000); // Increased to 4 seconds for better viewing
     return () => clearInterval(timer) 
   }, [])
   
@@ -63,7 +63,10 @@ export default function BannerSlider(){
         <motion.div 
           className="flex gap-4"
           animate={{ x: `-${currentIndex * (100 / 2.2)}%` }}
-          transition={{ duration: 0.5, ease: 'easeInOut' }}
+          transition={{ 
+            duration: 0.8, 
+            ease: 'easeInOut' 
+          }}
         >
           {BANNERS.map((banner, index) => (
             <motion.a
