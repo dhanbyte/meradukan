@@ -7,7 +7,7 @@ import { useCart } from '../lib/cartStore'
 import { toast } from '@/hooks/use-toast'
 import { motion } from 'framer-motion'
 import ProductSuggestionsRow from './ProductSuggestionsRow'
-import OptimizedImage from './OptimizedImage'
+import UniversalImage from './UniversalImage'
 import type { Product } from '../lib/types'
 import { Button } from './ui/button'
 import { useRequireAuth } from '@/hooks/use-require-auth';
@@ -59,14 +59,13 @@ export default function ProductCard({ p, product, suggest }: { p?: Product; prod
       <div className="relative aspect-square">
         <Link href={`/product/${productData.slug}`} className="block h-full">
           <div className="relative w-full h-full overflow-hidden rounded-lg">
-            <OptimizedImage
+            <UniversalImage
               src={productData.image}
               alt={productData.name}
               width={400}
               height={400}
               className="rounded-lg object-cover w-full h-full transform transition-transform duration-300 group-hover:scale-105"
               priority={false}
-              quality={65}
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
             />
             {productData.quantity === 0 && (

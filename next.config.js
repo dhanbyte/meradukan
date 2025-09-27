@@ -7,21 +7,18 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
+    unoptimized: true,
+    domains: ['*'],
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'ik.imagekit.io',
+        hostname: '**',
       },
       {
-        protocol: 'https',
-        hostname: 'images.unsplash.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'shopwave.b-cdn.net',
+        protocol: 'http', 
+        hostname: '**',
       }
-    ],
-    unoptimized: false
+    ]
   },
   experimental: {
     serverComponentsExternalPackages: ['mongoose']
