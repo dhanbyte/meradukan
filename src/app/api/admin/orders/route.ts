@@ -26,15 +26,27 @@ export async function PUT(request: Request) {
 
     await dbConnect();
     
-    // First check if order exists
-    const existingOrder = await AdminOrder.findOne({ orderId });
+    // First check if order exists by orderId or _id
+    let existingOrder = await AdminOrder.findOne({ orderId });
+    if (!existingOrder) {
+      existingOrder = await AdminOrder.findById(orderId);
+    }
     console.log('📋 Existing order:', existingOrder ? 'Found' : 'Not found');
     
-    const order = await AdminOrder.findOneAndUpdate(
+    // Try to update by orderId first, then by _id
+    let order = await AdminOrder.findOneAndUpdate(
       { orderId },
       { status, updatedAt: new Date() },
       { new: true }
     );
+    
+    if (!order) {
+      order = await AdminOrder.findByIdAndUpdate(
+        orderId,
+        { status, updatedAt: new Date() },
+        { new: true }
+      );
+    }
 
     if (!order) {
       console.log('❌ Order not found for update:', orderId);

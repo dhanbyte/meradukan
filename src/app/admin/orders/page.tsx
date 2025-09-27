@@ -213,7 +213,7 @@ export default function AdminOrdersPage() {
                   <div className="flex gap-2">
                     <select
                       value={order.status}
-                      onChange={(e) => updateOrderStatus(order.orderId, e.target.value)}
+                      onChange={(e) => updateOrderStatus(order.orderId || order._id, e.target.value)}
                       className="px-3 py-1 border rounded text-sm"
                     >
                       <option value="pending">Pending</option>

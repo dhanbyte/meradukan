@@ -627,11 +627,11 @@ undefined
             </div>
              <div className="flex justify-between">
                   <span>Shipping</span>
-                  <span>Free</span>
+                  <span>{totalShipping > 0 ? `₹${totalShipping}` : 'Free'}</span>
               </div>
               <div className="flex justify-between">
-                  <span>Platform Fee</span>
-                  <span>₹0</span>
+                  <span>Platform Fee (1.8%)</span>
+                  <span>₹{totalTax}</span>
               </div>
           </div>
           

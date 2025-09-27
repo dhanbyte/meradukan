@@ -40,22 +40,33 @@ const calculateTotals = (items: CartItem[]) => {
      return s + (i.qty * originalPrice)
   }, 0)
   
-  // Separate items by category
-  const ayurvedicItems = items.filter(item => {
+  // Calculate total weight and shipping
+  const totalWeight = items.reduce((weight, item) => {
     const product = products.find(p => p.id === item.id)
-    return product?.category === 'Ayurvedic'
-  })
-  const homeTechItems = items.filter(item => {
-    const product = products.find(p => p.id === item.id)
-    return product?.category === 'Home' || product?.category === 'Tech' || product?.category === 'New Arrivals'
-  })
+    const itemWeight = product?.weight || 500 // Default 500g per item
+    return weight + (itemWeight * item.qty)
+  }, 0)
   
-  let totalShipping = 0; // Free shipping for testing
+  // Shipping charges based on weight
+  let totalShipping = 0
+  if (totalWeight > 0) {
+    if (totalWeight <= 500) {
+      totalShipping = 49
+    } else if (totalWeight <= 1000) {
+      totalShipping = 99
+    } else {
+      // For every additional 500g after 1kg, add ₹49
+      const extraWeight = totalWeight - 1000
+      const extraCharges = Math.ceil(extraWeight / 500) * 49
+      totalShipping = 99 + extraCharges
+    }
+  }
   
-  // Platform fee set to 0 for testing
-  const platformFee = 0
+  // Platform fee 1.8% of subtotal after discount
+  const itemTotal = subtotal - totalDiscount
+  const platformFee = Math.round(itemTotal * 0.018)
 
-  const total = (subtotal - totalDiscount) + totalShipping + platformFee
+  const total = itemTotal + totalShipping + platformFee
   return { subtotal, totalDiscount, totalShipping, totalTax: platformFee, total }
 }
 
