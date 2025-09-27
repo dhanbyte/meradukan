@@ -383,7 +383,7 @@ export default function Home() {
                 <li><Link href="/search?category=Tech" className="text-gray-300 hover:text-white">Tech Accessories</Link></li>
                 <li><Link href="/search?category=Home" className="text-gray-300 hover:text-white">Home & Kitchen</Link></li>
                 <li><Link href="/new-arrivals" className="text-gray-300 hover:text-white">New Arrivals</Link></li>
-                <li><Link href="/contact" className="text-gray-300 hover:text-white">Contact Us</Link></li>
+                <li><Link href="/terms" className="text-gray-300 hover:text-white">Terms & Conditions</Link></li>
               </ul>
             </div>
             <div>
@@ -393,22 +393,22 @@ export default function Home() {
                   <p className="text-gray-300 mb-2">For Dropshipping & Wholesale:</p>
                   <div className="flex flex-col space-y-2">
                     <a
-                      href="https://chat.whatsapp.com/JmDFMt0uUhpHVSut4ZctfF"
+                      href="https://wa.me/919157499884?text=Hi, I'm interested in Dropshipping business opportunity"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg transition-colors"
                     >
                       <MessageCircle className="w-5 h-5 mr-2" />
-                      Join Dropshipping Group
+                      WhatsApp for Dropshipping
                     </a>
                     <a
-                      href="https://whatsapp.com/channel/0029VbAxgRFIN9ihjNsphG0D"
+                      href="https://wa.me/919157499884?text=Hi, I'm interested in Wholesale business opportunity"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg transition-colors"
                     >
                       <Users className="w-5 h-5 mr-2" />
-                      Join Wholesale Channel
+                      WhatsApp for Wholesale
                     </a>
                   </div>
                 </div>
@@ -435,30 +435,30 @@ export default function Home() {
           </DialogHeader>
           <div className="space-y-4">
             <div className="bg-green-50 p-4 rounded-lg">
-              <h4 className="font-semibold text-green-800 mb-2">Dropshipping Group</h4>
-              <p className="text-sm text-green-700 mb-3">Join our dropshipping community for exclusive deals and business opportunities.</p>
+              <h4 className="font-semibold text-green-800 mb-2">Dropshipping Business</h4>
+              <p className="text-sm text-green-700 mb-3">Start your dropshipping business with exclusive deals and support.</p>
               <a
-                href="https://chat.whatsapp.com/JmDFMt0uUhpHVSut4ZctfF"
+                href="https://wa.me/919157499884?text=Hi, I'm interested in Dropshipping business opportunity"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full flex items-center justify-center bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors"
               >
                 <MessageCircle className="w-4 h-4 mr-2" />
-                Join Dropshipping Group
+                WhatsApp for Dropshipping
               </a>
             </div>
 
             <div className="bg-blue-50 p-4 rounded-lg">
-              <h4 className="font-semibold text-blue-800 mb-2">Wholesale Channel</h4>
-              <p className="text-sm text-blue-700 mb-3">Get access to wholesale prices and bulk order opportunities.</p>
+              <h4 className="font-semibold text-blue-800 mb-2">Wholesale Business</h4>
+              <p className="text-sm text-blue-700 mb-3">Get wholesale prices and bulk order opportunities.</p>
               <a
-                href="https://whatsapp.com/channel/0029VbAxgRFIN9ihjNsphG0D"
+                href="https://wa.me/919157499884?text=Hi, I'm interested in Wholesale business opportunity"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
               >
                 <Users className="w-4 h-4 mr-2" />
-                Join Wholesale Channel
+                WhatsApp for Wholesale
               </a>
             </div>
           </div>
