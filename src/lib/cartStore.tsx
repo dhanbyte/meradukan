@@ -40,26 +40,10 @@ const calculateTotals = (items: CartItem[]) => {
      return s + (i.qty * originalPrice)
   }, 0)
   
-  // Calculate total weight and shipping
-  const totalWeight = items.reduce((weight, item) => {
-    const product = products.find(p => p.id === item.id)
-    const itemWeight = product?.weight || 500 // Default 500g per item
-    return weight + (itemWeight * item.qty)
-  }, 0)
-  
-  // Shipping charges based on weight
+  // Flat shipping rate
   let totalShipping = 0
-  if (totalWeight > 0) {
-    if (totalWeight <= 500) {
-      totalShipping = 49
-    } else if (totalWeight <= 1000) {
-      totalShipping = 99
-    } else {
-      // For every additional 500g after 1kg, add ₹49
-      const extraWeight = totalWeight - 1000
-      const extraCharges = Math.ceil(extraWeight / 500) * 49
-      totalShipping = 99 + extraCharges
-    }
+  if (items.length > 0) {
+    totalShipping = 49 // Flat ₹49 shipping for all orders
   }
   
   // Platform fee 1.8% of subtotal after discount

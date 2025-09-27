@@ -52,11 +52,11 @@ export default function TermsPage() {
             <section>
               <h2 className="text-xl font-semibold mb-3">3. Shipping & Delivery</h2>
               <ul className="list-disc list-inside space-y-2">
-                <li><strong>500g तक:</strong> ₹49 shipping charges</li>
-                <li><strong>1kg तक:</strong> ₹99 shipping charges</li>
-                <li><strong>1kg से ज्यादा:</strong> हर 500g के लिए ₹49 extra</li>
-                <li>Delivery time: 3-7 working days</li>
-                <li>Address change delivery के बाद नहीं हो सकता</li>
+                <li><strong>Shipping Charges:</strong> ₹49 flat rate for all orders</li>
+                <li><strong>Delivery time:</strong> 3-7 working days</li>
+                <li><strong>Free shipping:</strong> Currently not available</li>
+                <li><strong>Address change:</strong> Delivery के बाद नहीं हो सकता</li>
+                <li><strong>Tracking:</strong> Order confirmation के बाद tracking details मिलेंगे</li>
               </ul>
             </section>
 
