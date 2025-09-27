@@ -51,26 +51,26 @@ export default function ProductCard({ p, product, suggest }: { p?: Product; prod
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 12 }}
+      initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      className="card p-1.5 flex flex-col group"
+      transition={{ duration: 0.2 }}
+      className="bg-white rounded-lg border border-gray-100 p-2 flex flex-col group hover:shadow-md transition-shadow"
     >
-      <div className="relative aspect-square">
+      <div className="relative aspect-square mb-2">
         <Link href={`/product/${productData.slug}`} className="block h-full">
-          <div className="relative w-full h-full overflow-hidden rounded-lg">
+          <div className="relative w-full h-full overflow-hidden rounded-md">
             <UniversalImage
               src={productData.image}
               alt={productData.name}
-              width={400}
-              height={400}
-              className="rounded-lg object-cover w-full h-full transform transition-transform duration-300 group-hover:scale-105"
+              width={200}
+              height={200}
+              className="rounded-md object-cover w-full h-full"
               priority={false}
-              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+              sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 20vw"
             />
             {productData.quantity === 0 && (
-              <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-                <span className="text-white text-xs font-bold bg-black/50 px-2 py-1 rounded-full">OUT OF STOCK</span>
+              <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                <span className="text-white text-[10px] font-bold bg-red-500 px-1.5 py-0.5 rounded">OUT OF STOCK</span>
               </div>
             )}
           </div>
@@ -79,31 +79,31 @@ export default function ProductCard({ p, product, suggest }: { p?: Product; prod
           <WishlistButton id={productData.id} />
         </div>
       </div>
-      <div className="flex-grow flex flex-col pt-1.5 px-0.5">
+      <div className="flex-grow flex flex-col">
         <Link href={`/product/${productData.slug}`} className="flex-grow">
-          <div className="line-clamp-2 h-8 text-xs md:text-sm font-medium leading-tight">{productData.name}</div>
-          <div className="mt-0.5">
+          <div className="line-clamp-2 text-[11px] sm:text-xs font-medium leading-tight mb-1 h-6">{productData.name}</div>
+          <div className="mb-1">
             <RatingStars value={productData.ratings?.average || 0} />
           </div>
-          <div className="mt-0.5">
+          <div className="mb-2">
             <PriceTag original={productData.price.original} discounted={productData.price.discounted} />
           </div>
         </Link>
-        <div className="mt-1.5">
+        <div>
             {productData.quantity > 0 ? (
-                <Button onClick={handleAddToCart} size="sm" className="w-full h-8 text-xs">
+                <Button onClick={handleAddToCart} size="sm" className="w-full h-6 text-[10px] sm:text-xs py-0">
                     Add to Cart
                 </Button>
             ) : (
                 hasNotification(productData.id) ? (
-                    <Button size="sm" className="w-full h-8 text-xs" disabled>
-                        <Check className="h-3 w-3 mr-1" />
-                        We'll Notify You
+                    <Button size="sm" className="w-full h-6 text-[10px] py-0" disabled>
+                        <Check className="h-2.5 w-2.5 mr-1" />
+                        Notify Me
                     </Button>
                 ) : (
-                    <Button onClick={handleNotifyMe} size="sm" variant="secondary" className="w-full h-8 text-xs">
-                        <BellRing className="h-3 w-3 mr-1" />
-                        Notify Me
+                    <Button onClick={handleNotifyMe} size="sm" variant="secondary" className="w-full h-6 text-[10px] py-0">
+                        <BellRing className="h-2.5 w-2.5 mr-1" />
+                        Notify
                     </Button>
                 )
             )}

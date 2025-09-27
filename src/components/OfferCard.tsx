@@ -42,9 +42,9 @@ export default function OfferCard({ title, products, href }: { title: string; pr
   if (!products || products.length === 0) return null;
 
   return (
-    <div className="card p-2 md:p-4 h-full flex flex-col">
-        <h3 className="font-bold text-sm md:text-xl">{title}</h3>
-        <p className="text-xs md:text-sm text-gray-500 mb-2 md:mb-3">Top picks for you</p>
+    <div className="bg-white rounded-lg border border-gray-100 p-2 h-full flex flex-col">
+        <h3 className="font-bold text-xs sm:text-sm">{title}</h3>
+        <p className="text-[10px] sm:text-xs text-gray-500 mb-1 sm:mb-2">Top picks</p>
         <div className="relative flex-grow aspect-square">
              <AnimatePresence initial={false}>
                 <motion.div
@@ -53,7 +53,7 @@ export default function OfferCard({ title, products, href }: { title: string; pr
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.8, ease: 'easeInOut' }}
-                    className="grid grid-cols-2 grid-rows-2 gap-1 md:gap-2 absolute inset-0"
+                    className="grid grid-cols-2 grid-rows-2 gap-0.5 sm:gap-1 absolute inset-0"
                 >
                     {visibleProducts.map((p, i) => (
                         <Link key={`${p.id}-${i}`} href={`/product/${p.slug}`} className="block w-full h-full relative rounded-md md:rounded-lg overflow-hidden group">

@@ -13,11 +13,9 @@ export default function ProductGrid({ products }: { products: Product[] }) {
   }
 
   return (
-    <div className="no-scrollbar -mx-3 flex gap-3 overflow-x-auto px-3 pb-2">
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 sm:gap-3">
       {products.map(p => (
-        <div key={p.id} className="w-[calc(50%-0.5rem)] shrink-0 md:w-1/4">
-          <ProductCard p={p} />
-        </div>
+        <ProductCard key={p.id} p={p} />
       ))}
     </div>
   )

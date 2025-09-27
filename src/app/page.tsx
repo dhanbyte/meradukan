@@ -6,7 +6,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
 import BannerSlider from '@/components/BannerSlider';
-import ProductCard from '@/components/ProductCard';
+import SafeProductCard from '@/components/SafeProductCard';
 import {
   Carousel,
   CarouselContent,
@@ -308,23 +308,23 @@ export default function Home() {
         <h2 className="text-2xl font-bold mb-6 text-center">Shop by Category</h2>
 
         {/* All Categories Grid */}
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-6">
+        <div className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-6 gap-2 sm:gap-4 md:gap-6">
           {topCategories.map((category, index) => (
             <Link key={category.name} href={category.href} className="group block text-center">
-              <div className="relative w-full mx-auto mb-3">
+              <div className="relative w-full mx-auto mb-1 sm:mb-3">
                 <div className="aspect-square w-full">
                   <Image
                     src={category.image}
                     alt={category.name}
-                    width={64}
-                    height={64}
+                    width={48}
+                    height={48}
                     loading="lazy"
-                    className="w-full h-full object-cover rounded-lg drop-shadow-md transition-transform duration-300 group-hover:scale-105"
+                    className="w-full h-full object-cover rounded-md sm:rounded-lg drop-shadow-sm transition-transform duration-300 group-hover:scale-105"
                     data-ai-hint={category.dataAiHint}
                   />
                 </div>
               </div>
-              <h4 className="text-sm md:text-base font-medium text-gray-700 group-hover:text-brand leading-tight px-1">{category.name}</h4>
+              <h4 className="text-[10px] sm:text-sm md:text-base font-medium text-gray-700 group-hover:text-brand leading-tight px-0.5">{category.name}</h4>
             </Link>
           ))}
         </div>
@@ -350,7 +350,7 @@ export default function Home() {
         <div className="flex flex-wrap -mx-1.5 md:-mx-2">
            {visibleProducts.map((p, index) => (
             <div key={`${p.id}-${index}`} className="w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5 p-1.5 md:p-2">
-              <ProductCard p={p} />
+              <SafeProductCard p={p} />
             </div>
           ))}
         </div>
