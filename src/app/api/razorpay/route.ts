@@ -4,8 +4,10 @@ import Razorpay from 'razorpay'
 
 // Define allowed origins
 const allowedOrigins = [
+    'https://shopwave.social',
+    'https://www.shopwave.social',
     process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000',
-    "https://6000-firebase-studio-1756288828902.cluster-cd3bsnf6r5bemwki2bxljme5as.cloudworkstations.dev",
+    'http://localhost:3000'
 ];
 
 const getCorsHeaders = (origin: string | null) => {
