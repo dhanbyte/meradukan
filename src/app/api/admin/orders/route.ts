@@ -18,11 +18,17 @@ export async function PUT(request: Request) {
     const body = await request.json();
     const { orderId, status } = body;
 
+    console.log('🔄 Updating order:', { orderId, status });
+
     if (!orderId || !status) {
       return NextResponse.json({ success: false, error: 'Missing required fields' }, { status: 400 });
     }
 
     await dbConnect();
+    
+    // First check if order exists
+    const existingOrder = await AdminOrder.findOne({ orderId });
+    console.log('📋 Existing order:', existingOrder ? 'Found' : 'Not found');
     
     const order = await AdminOrder.findOneAndUpdate(
       { orderId },
@@ -31,12 +37,14 @@ export async function PUT(request: Request) {
     );
 
     if (!order) {
+      console.log('❌ Order not found for update:', orderId);
       return NextResponse.json({ success: false, error: 'Order not found' }, { status: 404 });
     }
 
+    console.log('✅ Order updated successfully:', order.orderId, 'Status:', order.status);
     return NextResponse.json({ success: true, order });
   } catch (error) {
-    console.error('Error updating order:', error);
+    console.error('❌ Error updating order:', error);
     return NextResponse.json({ success: false, error: 'Failed to update order' }, { status: 500 });
   }
 }

@@ -31,6 +31,8 @@ export default function AdminOrdersPage() {
   }
 
   const updateOrderStatus = async (orderId: string, status: string) => {
+    console.log('🔄 Updating order status:', { orderId, status });
+    
     try {
       const response = await fetch('/api/admin/orders', {
         method: 'PUT',
@@ -38,14 +40,18 @@ export default function AdminOrdersPage() {
         body: JSON.stringify({ orderId, status })
       })
 
+      console.log('📊 Response status:', response.status);
       const data = await response.json()
+      console.log('📊 Response data:', data);
+      
       if (data.success) {
-        toast({ title: "Success", description: "Order status updated" })
+        toast({ title: "Success", description: `Order status updated to ${status}` })
         fetchOrders()
       } else {
-        toast({ title: "Error", description: data.error })
+        toast({ title: "Error", description: data.error || 'Update failed' })
       }
     } catch (error) {
+      console.error('❌ Update error:', error);
       toast({ title: "Error", description: "Failed to update order" })
     }
   }
