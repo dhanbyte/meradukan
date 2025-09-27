@@ -59,16 +59,9 @@ export const ClerkAuthProvider = ({ children }: { children: ReactNode }) => {
 
   const saveUserToDatabase = async (userData: CustomUser) => {
     try {
-      await fetch('/api/users', {
+      await fetch('/api/auth/sync-user', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          _id: userData.id,
-          email: userData.email,
-          full_name: userData.fullName,
-          created_at: new Date(userData.createdAt || Date.now()),
-          updated_at: new Date()
-        })
+        headers: { 'Content-Type': 'application/json' }
       })
     } catch (error) {
       console.error('Error saving user to database:', error)

@@ -43,7 +43,7 @@ let memoryState: ToastState = { toasts: [] }
 const listeners: Array<(state: ToastState) => void> = []
 
 const toast = ({ variant, className, ...props }: ToasterToast) => {
-  const id = String(Date.now());
+  const id = `toast-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 
   const update = (props: ToasterToast) =>
     dispatch({

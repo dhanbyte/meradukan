@@ -34,7 +34,7 @@ export const TECH_PRODUCTS: Product[] = [
     brand: 'PHOBIA',
     category: 'Tech',
     subcategory: 'Accessories',
-    price: { original: 29, discounted: 0.5, currency: '₹' },
+    price: { original: 29, discounted: 9, currency: '₹' },
     quantity: 100,
     image: 'https://ik.imagekit.io/b5qewhvhb/e%20commers/tach/electronics%20aaitams/0294.webp?updatedAt=1756627296166',
     extraImages: [

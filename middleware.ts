@@ -9,17 +9,11 @@ const publicRoutes = [
   "/faq",
   "/return-policy",
   "/shipping-policy",
-  "/api/products(.*)",
-  "/api/imagekit(.*)",
-  "/api/razorpay",
-  "/api/webhook(.*)",
-  "/api/trpc/(.*)",
-  "/api/uploadthing",
-  "/api/uploadthing/(.*)",
-  "/api/uploadthing-a5ec7(.*)",
+  "/sign-in(.*)",
+  "/register(.*)",
+  "/api/(.*)",
   "/favicon.ico",
-  "/_next/static/(.*)",
-  "/_next/image(.*)",
+  "/_next/(.*)",
   "/images/(.*)",
   "/assets/(.*)",
   "/site.webmanifest"
@@ -27,24 +21,10 @@ const publicRoutes = [
 
 const isPublicRoute = createRouteMatcher(publicRoutes);
 
-export default clerkMiddleware(async (auth, req) => {
-  const session = await auth();
-  const isPublic = isPublicRoute(req);
-  
-  // If the route is public, allow access
-  if (isPublic) {
-    return NextResponse.next();
+export default clerkMiddleware((auth, req) => {
+  if (!isPublicRoute(req)) {
+    auth().protect();
   }
-  
-  // If user is not signed in, redirect to sign-in
-  if (!session || !session.userId) {
-    const signInUrl = new URL('/sign-in', req.url);
-    signInUrl.searchParams.set('redirect_url', req.url);
-    return NextResponse.redirect(signInUrl);
-  }
-  
-  // User is signed in and route is not public, allow access
-  return NextResponse.next();
 });
 
 export const config = {

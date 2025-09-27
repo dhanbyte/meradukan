@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { useToast } from '@/hooks/use-toast'
 import Link from 'next/link'
-import { Package, ShoppingCart, Users, Star, TrendingUp, Plus, Eye, Trash2 } from 'lucide-react'
+import { Package, ShoppingCart, Users, Star, TrendingUp, Plus, Eye, Trash2, RefreshCw, Settings } from 'lucide-react'
 import ErrorBoundary from '@/components/ErrorBoundary'
 
 function AdminDashboard() {
@@ -22,25 +22,62 @@ function AdminDashboard() {
 
   const fetchStats = async () => {
     try {
-      const response = await fetch('/api/admin/stats')
-      if (response.ok) {
-        const data = await response.json()
-        setStats(data)
+      // Fetch real data from admin APIs
+      const [productsRes, usersRes, ordersRes] = await Promise.all([
+        fetch('/api/admin/products'),
+        fetch('/api/admin/users'),
+        fetch('/api/admin/orders')
+      ])
+      
+      const productsData = productsRes.ok ? await productsRes.json() : { products: [] }
+      const usersData = usersRes.ok ? await usersRes.json() : { users: [] }
+      const ordersData = ordersRes.ok ? await ordersRes.json() : { orders: [] }
+      
+      const products = productsData.products || []
+      const users = usersData.users || []
+      const orders = ordersData.orders || []
+      
+      let totalRevenue = 0
+      orders.forEach(order => {
+        totalRevenue += order.total || 0
+      })
+      
+      const stats = {
+        totalProducts: products.length,
+        newProducts: products.filter(p => p.isNewProduct).length,
+        lowStock: products.filter(p => p.quantity <= 5).length,
+        totalOrders: orders.length,
+        totalUsers: users.length,
+        totalRevenue: Math.round(totalRevenue),
+        avgOrderValue: orders.length > 0 ? Math.round(totalRevenue / orders.length) : 0
       }
+      
+      console.log('Dashboard stats:', stats)
+      setStats(stats)
     } catch (error) {
       console.error('Failed to fetch stats:', error)
+      setStats({
+        totalProducts: 0,
+        newProducts: 0,
+        lowStock: 0,
+        totalOrders: 0,
+        totalUsers: 0,
+        totalRevenue: 0,
+        avgOrderValue: 0
+      })
     }
   }
 
   const fetchRecentProducts = async () => {
     try {
-      const response = await fetch('/api/products?limit=5')
-      if (response.ok) {
-        const data = await response.json()
-        setRecentProducts(data.slice(0, 5))
-      }
+      const response = await fetch('/api/admin/products')
+      const data = response.ok ? await response.json() : { products: [] }
+      const recentProducts = (data.products || []).slice(0, 5)
+      setRecentProducts(recentProducts)
+      console.log('Recent products loaded:', recentProducts.length)
     } catch (error) {
       console.error('Failed to fetch recent products:', error)
+      setRecentProducts([])
     }
   }
 
@@ -54,28 +91,37 @@ function AdminDashboard() {
     try {
       const products = JSON.parse(bulkData)
       
-      const response = await fetch('/api/products/bulk', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(products)
-      })
-
-      const result = await response.json()
-      
-      if (response.ok) {
-        toast({ 
-          title: "Success", 
-          description: result.message || `Added ${result.insertedCount} products` 
-        })
-        setBulkData('')
-        fetchStats()
-        fetchRecentProducts()
-      } else {
-        toast({ 
-          title: "Error", 
-          description: result.error || 'Failed to upload products' 
-        })
+      // Upload each product individually
+      let successCount = 0
+      for (const product of products) {
+        try {
+          const response = await fetch('/api/admin/products', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              id: product.id || `prod-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+              name: product.name,
+              description: product.description,
+              price: product.price,
+              image: product.image,
+              category: product.category,
+              quantity: product.quantity || 0
+            })
+          })
+          
+          if (response.ok) successCount++
+        } catch (err) {
+          console.error('Error uploading product:', err)
+        }
       }
+      
+      toast({ 
+        title: "Success", 
+        description: `Added ${successCount} out of ${products.length} products` 
+      })
+      setBulkData('')
+      fetchStats()
+      fetchRecentProducts()
     } catch (error) {
       toast({ 
         title: "Error", 
@@ -90,7 +136,7 @@ function AdminDashboard() {
     if (!confirm('Are you sure you want to delete this product?')) return
     
     try {
-      const response = await fetch(`/api/products/${id}`, {
+      const response = await fetch(`/api/admin/products?id=${id}`, {
         method: 'DELETE'
       })
       
@@ -106,9 +152,9 @@ function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="container mx-auto p-6">
+      <div className="p-6">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold">Admin Dashboard</h1>
+          <h1 className="text-3xl font-bold">📊 Dashboard</h1>
           <div className="flex gap-4">
             <Link href="/admin/catalog">
               <Button variant="outline">
@@ -149,28 +195,28 @@ function AdminDashboard() {
               <div className="bg-white p-6 rounded-lg shadow">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm text-gray-600">New Products (7 days)</p>
-                    <p className="text-2xl font-bold">{stats.newProducts || 0}</p>
+                    <p className="text-sm text-gray-600">Total Orders</p>
+                    <p className="text-2xl font-bold">{stats.totalOrders || 0}</p>
                   </div>
-                  <TrendingUp className="h-8 w-8 text-green-500" />
+                  <ShoppingCart className="h-8 w-8 text-green-500" />
                 </div>
               </div>
               
               <div className="bg-white p-6 rounded-lg shadow">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm text-gray-600">Low Stock Items</p>
-                    <p className="text-2xl font-bold">{stats.lowStock || 0}</p>
+                    <p className="text-sm text-gray-600">Total Customers</p>
+                    <p className="text-2xl font-bold">{stats.totalUsers || 0}</p>
                   </div>
-                  <Package className="h-8 w-8 text-red-500" />
+                  <Users className="h-8 w-8 text-purple-500" />
                 </div>
               </div>
               
               <div className="bg-white p-6 rounded-lg shadow">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm text-gray-600">Avg Order Value</p>
-                    <p className="text-2xl font-bold">₹{stats.avgOrderValue || 0}</p>
+                    <p className="text-sm text-gray-600">Total Revenue</p>
+                    <p className="text-2xl font-bold">₹{stats.totalRevenue?.toLocaleString() || 0}</p>
                   </div>
                   <Star className="h-8 w-8 text-yellow-500" />
                 </div>
@@ -269,6 +315,18 @@ function AdminDashboard() {
         <div className="mt-8 bg-white p-6 rounded-lg shadow">
           <h2 className="text-xl font-semibold mb-4">Quick Actions</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <Link href="/admin/users">
+              <Button variant="outline" className="w-full">
+                <Users className="h-4 w-4 mr-2" />
+                Manage Users
+              </Button>
+            </Link>
+            <Link href="/admin/orders">
+              <Button variant="outline" className="w-full">
+                <ShoppingCart className="h-4 w-4 mr-2" />
+                Manage Orders
+              </Button>
+            </Link>
             <Link href="/admin/catalog">
               <Button variant="outline" className="w-full">
                 <Package className="h-4 w-4 mr-2" />
@@ -278,11 +336,11 @@ function AdminDashboard() {
             <Link href="/admin/add-product">
               <Button variant="outline" className="w-full">
                 <Plus className="h-4 w-4 mr-2" />
-                Add Single Product
+                Add Product
               </Button>
             </Link>
             <Button variant="outline" className="w-full" onClick={fetchStats}>
-              <TrendingUp className="h-4 w-4 mr-2" />
+              <RefreshCw className="h-4 w-4 mr-2" />
               Refresh Stats
             </Button>
             <Link href="/">

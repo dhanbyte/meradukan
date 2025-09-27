@@ -50,44 +50,10 @@ const calculateTotals = (items: CartItem[]) => {
     return product?.category === 'Home' || product?.category === 'Tech' || product?.category === 'New Arrivals'
   })
   
-  let totalShipping = 0;
+  let totalShipping = 0; // Free shipping for testing
   
-  // Calculate shipping for Ayurvedic products (keep existing logic)
-  if (ayurvedicItems.length > 0) {
-    const ayurvedicQty = ayurvedicItems.reduce((acc, item) => acc + item.qty, 0)
-    
-    if (ayurvedicQty <= 2) {
-      totalShipping += 45
-    } else if (ayurvedicQty <= 8) {
-      totalShipping += 65
-    } else {
-      totalShipping += 100
-      const remainingItems = ayurvedicQty - 8
-      totalShipping += Math.ceil(remainingItems / 5) * 35
-    }
-  }
-  
-  // Calculate shipping for Home & Tech products (New Arrivals included)
-  if (homeTechItems.length > 0) {
-    const homeTechQty = homeTechItems.reduce((acc, item) => acc + item.qty, 0)
-    
-    if (ayurvedicItems.length > 0) {
-      // Mixed cart: only ₹22 for Home & Tech
-      totalShipping += 22
-    } else {
-      // Only Home & Tech: ₹49 for first product, ₹2 for each additional after 5 products
-      if (homeTechQty === 1) {
-        totalShipping += 49
-      } else if (homeTechQty <= 5) {
-        totalShipping += 49
-      } else {
-        totalShipping += 49 + ((homeTechQty - 5) * 2)
-      }
-    }
-  }
-
-  // Platform fee instead of tax (max ₹15)
-  const platformFee = Math.min(15, subtotal * 0.02) // 2% platform fee, capped at ₹15
+  // Platform fee set to 0 for testing
+  const platformFee = 0
 
   const total = (subtotal - totalDiscount) + totalShipping + platformFee
   return { subtotal, totalDiscount, totalShipping, totalTax: platformFee, total }

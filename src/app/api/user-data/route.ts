@@ -1,4 +1,8 @@
 import { NextResponse, type NextRequest } from 'next/server';
+import dbConnect from '@/lib/dbConnect';
+import AdminUser from '@/models/AdminUser';
+import AdminOrder from '@/models/AdminOrder';
+import UserData from '@/models/UserData';
 
 // Fallback for when database is not available
 const fallbackResponse = (type: string) => {
@@ -15,21 +19,36 @@ const fallbackResponse = (type: string) => {
   }
 };
 
-let dbConnect: any;
-let UserData: any;
-
-try {
-  dbConnect = require('../../../lib/dbConnect').default;
-  UserData = require('../../../models/UserData').default;
-} catch (error) {
-  console.warn('Database modules not available, using fallback mode');
-}
-
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
     const userId = searchParams.get('userId')
     const type = searchParams.get('type')
+    const admin = searchParams.get('admin')
+    
+    // Admin endpoint to get all users
+    if (admin === 'true') {
+      try {
+        await dbConnect()
+        const users = await AdminUser.find({}).lean()
+        
+        // Get orders for each user
+        const usersWithOrders = await Promise.all(
+          users.map(async (user) => {
+            const orders = await AdminOrder.find({ userId: user.userId }).lean()
+            return {
+              ...user,
+              orders: orders || []
+            }
+          })
+        )
+        
+        return NextResponse.json({ users: usersWithOrders })
+      } catch (dbError) {
+        console.warn('Database error:', dbError)
+        return NextResponse.json({ users: [] })
+      }
+    }
     
     if (!userId || !type) {
       return NextResponse.json([])

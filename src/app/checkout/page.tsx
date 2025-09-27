@@ -178,6 +178,53 @@ undefined
       
       console.log('✅ Order created:', newOrder.id);
       
+      // Register user in admin system
+      try {
+        await fetch('/api/register-user', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            userId: user.id,
+            email: user.emailAddresses?.[0]?.emailAddress || user.id,
+            fullName: user.fullName || 'User',
+            phone: user.phoneNumbers?.[0]?.phoneNumber || ''
+          })
+        })
+      } catch (error) {
+        console.error('Error registering user:', error)
+      }
+      
+      // Save order to admin system
+      try {
+        await fetch('/api/place-order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            userId: user.id,
+            items: items.map(item => ({
+              productId: item.id,
+              name: item.name,
+              price: item.price,
+              quantity: item.qty,
+              image: item.image
+            })),
+            total: finalTotal,
+            paymentMethod: paymentMethod,
+            paymentId: 'razorpay_payment_id',
+            shippingAddress: {
+              name: addr.fullName,
+              phone: addr.phone,
+              address: addr.line1,
+              city: addr.city,
+              state: addr.state,
+              pincode: addr.pincode
+            }
+          })
+        })
+      } catch (error) {
+        console.error('Error saving order to admin:', error)
+      }
+      
       // Deduct coins if applied
       if (coinsApplied && coinsToUse > 0) {
         console.log('💰 Deducting coins:', coinsToUse);
@@ -580,11 +627,11 @@ undefined
             </div>
              <div className="flex justify-between">
                   <span>Shipping</span>
-                  <span>{totalShipping > 0 ? `₹${totalShipping.toLocaleString('en-IN')}` : 'Free'}</span>
+                  <span>Free</span>
               </div>
               <div className="flex justify-between">
                   <span>Platform Fee</span>
-                  <span>₹{totalTax.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                  <span>₹0</span>
               </div>
           </div>
           

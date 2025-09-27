@@ -20,18 +20,19 @@ function ProductsPageContent() {
   const fetchProducts = async () => {
     setIsLoading(true)
     try {
-      const response = await fetch('/api/products')
-      if (response.ok) {
-        const data = await response.json()
-        setProducts(Array.isArray(data) ? data : [])
-      } else {
-        console.error('Failed to fetch products:', response.status)
-        setProducts([])
-      }
+      // Import product data directly from JSON files
+      const { TECH_PRODUCTS } = await import('@/lib/data/tech')
+      const { HOME_PRODUCTS } = await import('@/lib/data/home')
+      const { NEWARRIVALS_PRODUCTS } = await import('@/lib/data/newarrivals')
+      
+      // Combine all products
+      const allProducts = [...TECH_PRODUCTS, ...HOME_PRODUCTS, ...NEWARRIVALS_PRODUCTS]
+      console.log('Admin fetched products:', allProducts.length)
+      setProducts(allProducts)
     } catch (error) {
-      console.error('Error fetching products:', error)
+      console.error('Error loading products:', error)
       setProducts([])
-      toast({ title: "Error", description: "Failed to fetch products" })
+      toast({ title: "Error", description: "Failed to load products" })
     } finally {
       setIsLoading(false)
     }
@@ -160,13 +161,14 @@ function ProductsPageContent() {
                         >
                           <Eye className="h-3 w-3" />
                         </Button>
-                        <Button
-                          onClick={() => window.location.href = `/admin/products/${product.id}/edit`}
-                          variant="outline"
-                          size="sm"
-                        >
-                          <Edit className="h-3 w-3" />
-                        </Button>
+                        <Link href={`/admin/products/${product.id}/edit`}>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                          >
+                            <Edit className="h-3 w-3" />
+                          </Button>
+                        </Link>
                         <Button
                           onClick={() => deleteProduct(product.id)}
                           variant="destructive"
@@ -189,6 +191,41 @@ function ProductsPageContent() {
             <p className="text-gray-500">No products found</p>
           </div>
         )}
+      </div>
+
+      {/* JSON Products Display */}
+      <div className="bg-white rounded-lg shadow mt-6">
+        <div className="p-6 border-b">
+          <h2 className="text-xl font-semibold">JSON Products Data</h2>
+          <p className="text-sm text-gray-600 mt-1">Raw product data from database</p>
+        </div>
+        <div className="p-6">
+          <div className="space-y-4">
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <p className="text-blue-800 font-semibold">Total Products: {products.length}</p>
+              <p className="text-sm text-blue-600 mt-1">
+                Categories: {[...new Set(products.map(p => p.category))].join(', ')}
+              </p>
+            </div>
+            
+            {products.length > 0 ? (
+              <pre className="bg-gray-100 p-4 rounded-lg overflow-auto max-h-96 text-sm">
+                {JSON.stringify(products.slice(0, 5), null, 2)}
+                {products.length > 5 && `\n\n... and ${products.length - 5} more products`}
+              </pre>
+            ) : (
+              <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                <p className="text-red-800">No products loaded yet.</p>
+                <button 
+                  onClick={fetchProducts}
+                  className="mt-2 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                >
+                  Retry Loading Products
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   )
